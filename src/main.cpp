@@ -80,10 +80,18 @@ void drawScreen(float t, float h) {
     oled.setCursor(28, 4);
     oled.print("selffox.xyz");
 
-    // 状态点：右侧两枚小圆点
-    // 位置 1 = WiFi 已连接，位置 2 = MQTT 已连接
-    oled.fillCircle(114, 6, 2, (WiFi.status() == WL_CONNECTED) ? SSD1306_BLACK : SSD1306_WHITE);
-    oled.fillCircle(124, 6, 2, mqtt.connected() ? SSD1306_BLACK : SSD1306_WHITE);
+    // 状态亮点：2 个圆点，实心=已连接，空心=未连接
+    // 左侧 = WiFi，右侧 = MQTT
+    if (WiFi.status() == WL_CONNECTED) {
+        oled.fillCircle(114, 6, 2, SSD1306_BLACK);
+    } else {
+        oled.drawCircle(114, 6, 2, SSD1306_BLACK);
+    }
+    if (mqtt.connected()) {
+        oled.fillCircle(124, 6, 2, SSD1306_BLACK);
+    } else {
+        oled.drawCircle(124, 6, 2, SSD1306_BLACK);
+    }
 
     oled.setTextColor(SSD1306_WHITE);
 
