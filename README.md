@@ -153,7 +153,7 @@ esp32-c3-weather-station/
 |:---:|:---:|
 | ![爱心动画](docs/images/heart.gif) | ![OLED 界面](docs/images/oled.jpg) |
 
-> 图片为占位，可放入 `docs/images/` 后替换链接。
+
 
 ## 🔗 参考教程
 

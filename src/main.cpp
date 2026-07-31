@@ -18,8 +18,9 @@ Adafruit_SSD1306 oled(OLED_WIDTH, OLED_HEIGHT, &Wire, OLED_RESET);
 WiFiClient espClient;
 PubSubClient mqtt(espClient);
 
-// ===== 爱心动画帧 =====
-// 大心（满屏）与小（收缩），交替显示形成"跳动"效果
+// ===== 爱心动画 =====
+// 双帧尺寸缩放模拟心跳节拍：lub-dub ... 停顿 ... lub-dub ...
+// 亮度恒定 10，不闪烁
 const uint8_t heartBig[8] = {
     0b00000000,
     0b01100110,
@@ -38,26 +39,28 @@ const uint8_t heartSmall[8] = {
     0b11111111,
     0b11111111,
     0b01111110,
-    0b00111100,
+    0b00000000,
     0b00000000,
 };
 
-// 心跳节奏：大心停留 400ms，小心停留 200ms
-const unsigned long HEART_BIG_MS   = 400;
-const unsigned long HEART_SMALL_MS = 200;
+// 心跳节奏状态机（ms）
+// 小心 → 大心 → 小心 → 大心 → 小心(长停顿) → 循环
+//  =beat=      =beat=
+const unsigned long heartbeatDurations[] = { 300, 300, 300, 300, 800 };
+const uint8_t heartbeatStateCount = 5;
 
 // ===== LED 矩阵：心跳动画（非阻塞） =====
 void updateHeart() {
     static unsigned long lastBeat = 0;
-    static bool big = true;
+    static uint8_t state = 0;     // 0/1/2/3/4
 
     unsigned long now = millis();
-    unsigned long hold = big ? HEART_BIG_MS : HEART_SMALL_MS;
-    if (now - lastBeat < hold) return;
+    if (now - lastBeat < heartbeatDurations[state]) return;
     lastBeat = now;
-    big = !big;
+    state = (state + 1) % heartbeatStateCount;
 
-    const uint8_t* frame = big ? heartBig : heartSmall;
+    // state 1、3 时显示大心，其余显示小心
+    const uint8_t* frame = (state == 1 || state == 3) ? heartBig : heartSmall;
     MD_MAX72XX* mx = ledMatrix.getGraphicObject();
     ledMatrix.displayClear();
     for (int row = 0; row < 8; row++) {
@@ -169,8 +172,14 @@ void setup() {
 
     // LED 矩阵
     ledMatrix.begin();
-    ledMatrix.setIntensity(7);          // 亮度 0~15
-    ledMatrix.displayClear();
+    ledMatrix.setIntensity(10);         // 亮度恒定 0~15（不随动画变化）
+
+    // 开机立刻显示大心
+    MD_MAX72XX* mx = ledMatrix.getGraphicObject();
+    for (int row = 0; row < 8; row++) {
+        mx->setRow(row, heartBig[row]);
+    }
+    mx->update();
 
     // DHT11
     dht.begin();
