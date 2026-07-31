@@ -32,7 +32,7 @@
 | OLED 显示屏 | SSD1306 0.96 寸 128×64 | 1 | I2C 接口，地址 0x3C |
 | 面包板 / 杜邦线 | — | 若干 | 接线用 |
 
-## 🔌 接线图（文字版）
+## 🔌 接线图
 
 ### MAX7219 点阵（SPI）
 
@@ -123,6 +123,7 @@ pio device monitor
 
 ```
 esp32-c3-weather-station/
+├── LICENSE                  # MIT 许可证
 ├── platformio.ini            # 平台/板型/依赖库配置
 ├── .gitignore                # 忽略 .pio/、config.h 等
 ├── README.md
@@ -132,6 +133,8 @@ esp32-c3-weather-station/
 │   └── pins.h                # 引脚定义
 ├── src/
 │   └── main.cpp              # 主程序
+├── docs/
+│   └── images/               # 效果展示图片与视频
 ├── lib/README                # 第三方库说明
 └── test/README               # 测试目录说明
 ```
@@ -151,9 +154,28 @@ esp32-c3-weather-station/
 
 | MAX7219 爱心跳动 | OLED 温湿度界面 |
 |:---:|:---:|
-| ![爱心动画](docs/images/heart.gif) | ![OLED 界面](docs/images/oled.jpg) |
+| <video src="docs/images/heart.mp4" controls width="180"></video> | ![OLED 界面](docs/images/oled.jpg) |
 
+> 视频演示爱心心跳动画；实拍 OLED 显示温度、湿度与右上角 WiFi/MQTT 状态点。
 
+## ❓ 常见问题（FAQ）
+
+### Q1: DHT11 读取返回 `nan`？
+DHT11 采样间隔必须 **≥ 1 秒**，读取太频繁会返回 `nan`。本项目默认 2s 间隔；如仍出现，检查传感器接线（数据线接 `PIN_DHT`）和供电是否稳定。
+
+### Q2: WiFi 一直连不上？
+- ESP32-C3 **只支持 2.4GHz**，不支持 5GHz 网络
+- 确认 `include/config.h` 里的 `WIFI_SSID` / `WIFI_PASSWORD` 拼写无误（大小写、下划线）
+- 检查路由器是否开启了 MAC 地址过滤 / 设备白名单
+- 确认密码正确（可在电脑 `netsh wlan show profile name="你的SSID" key=clear` 查看真实密码对比）
+
+### Q3: LED 点阵完全不亮？
+- 检查 MAX7219 的 `VCC` / `GND` 供电是否接好、是否共地
+- 确认 DIN / CLK / CS 三根信号线对应 `include/pins.h` 的引脚定义
+- 若模块通电但无显示，尝试降低亮度（`setIntensity(10)` 改小）
+
+### Q4: 修改引脚后没生效？
+所有引脚集中在 [`include/pins.h`](include/pins.h)，改完需重新编译烧录。
 
 ## 🔗 参考教程
 
@@ -164,7 +186,7 @@ esp32-c3-weather-station/
 
 ## 📜 开源协议
 
-本项目代码遵循 [MIT License](LICENSE)。博客文章内容仍遵循 CC BY-NC-SA 4.0。
+本项目代码遵循 [MIT License](LICENSE)。
 
 ---
 
