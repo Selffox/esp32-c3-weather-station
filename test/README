@@ -1,0 +1,5 @@
+# test/
+
+存放单元测试（PlatformIO Unified Test Framework）。
+
+本项目暂无测试用例，需要测试时可在此目录添加 `test_*.cpp`。

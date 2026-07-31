@@ -1,0 +1,3 @@
+# lib/
+
+本项目未使用本地私有库。所有第三方依赖均通过 `platformio.ini` 中的 `lib_deps` 自动下载。
