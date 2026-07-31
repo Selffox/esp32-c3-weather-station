@@ -4,7 +4,7 @@
 
 [![PlatformIO](https://img.shields.io/badge/PlatformIO-8B5CF6?style=flat-square&logo=platformio&logoColor=white)](https://platformio.org)
 [![ESP32-C3](https://img.shields.io/badge/ESP32--C3-Super%20Mini-000000?style=flat-square&logo=espressif&logoColor=white)](https://www.espressif.com/en/products/socs/esp32-c3)
-[![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 📖 详细教程：[ESP32-C3 温湿度计：DHT11 + OLED + WiFi/MQTT](https://selffox.xyz/posts/esp32-c3-super-minidht11/) · [ESP32-C3 点阵入门：心形与滚动文字](https://selffox.xyz/posts/esp32-c3-super-miniled/)
 
@@ -164,7 +164,7 @@ esp32-c3-weather-station/
 
 ## 📜 开源协议
 
-本项目遵循 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) 协议。
+本项目代码遵循 [MIT License](LICENSE)。博客文章内容仍遵循 CC BY-NC-SA 4.0。
 
 ---
 
