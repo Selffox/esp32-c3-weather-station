@@ -154,9 +154,9 @@ esp32-c3-weather-station/
 
 | MAX7219 爱心跳动 | OLED 温湿度界面 |
 |:---:|:---:|
-| <video src="docs/images/heart.mp4" controls width="180"></video> | ![OLED 界面](docs/images/oled.jpg) |
+| ![爱心动画](docs/images/heart.gif) | ![OLED 界面](docs/images/oled.jpg) |
 
-> 视频演示爱心心跳动画；实拍 OLED 显示温度、湿度与右上角 WiFi/MQTT 状态点。
+> GIF 演示爱心心跳动画；实拍 OLED 显示温度、湿度与右上角 WiFi/MQTT 状态点。
 
 ## ❓ 常见问题（FAQ）
 
